@@ -6,7 +6,9 @@ const StageTwo = ({ setStage, userInfo, setUserInfo }) => {
     error: "",
     valid: userInfo.password ? true : false,
   });
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
 
   function handlePasswordValidation(content) {
@@ -32,6 +34,13 @@ const StageTwo = ({ setStage, userInfo, setUserInfo }) => {
       error: errorMessage,
       valid: isValid,
     });
+  }
+
+  function handlePasswordMatch(confirmPassword) {
+    setConfirmPassword(confirmPassword);
+    if (confirmPassword === password.content) {
+      console.log("password match");
+    }
   }
 
   return (
@@ -63,6 +72,25 @@ const StageTwo = ({ setStage, userInfo, setUserInfo }) => {
           </button>
           <p className="error">{errorVisible ? password.error : ""}</p>
         </label>
+        <label htmlFor="confirm-password">
+          Confirm Password
+          <input
+            type={confirmPasswordVisible ? "text" : "password"}
+            id="confirm-password"
+            value={confirmPassword}
+            onChange={(e) => {
+              handlePasswordMatch(e.target.value);
+            }}
+          />
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setConfirmPasswordVisible(!confirmPasswordVisible);
+            }}
+          >
+            {confirmPasswordVisible ? "Hide" : "Show"}
+          </button>
+        </label>
         <button
           onClick={() => {
             setStage("StageOne");
@@ -71,7 +99,7 @@ const StageTwo = ({ setStage, userInfo, setUserInfo }) => {
           Previous
         </button>
         <button
-          disabled={!password.valid}
+          disabled={!(password.valid && password.content === confirmPassword)}
           onClick={(e) => {
             e.preventDefault();
             setUserInfo({ ...userInfo, password: password.content });
