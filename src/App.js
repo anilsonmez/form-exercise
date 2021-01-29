@@ -3,11 +3,12 @@ import "./App.css";
 import StageOne from "./StageOne";
 import StageTwo from "./StageTwo";
 import StageThree from "./StageThree";
+import Results from "./Results";
 
 function App() {
   const [stage, setStage] = useState("StageOne");
   const [userInfo, setUserInfo] = useState({
-    name: "",
+    firstName: "",
     lastName: "",
     email: "",
     password: "",
@@ -38,6 +39,9 @@ function App() {
           userInfo={userInfo}
           setUserInfo={setUserInfo}
         />
+      )}
+      {stage === "Results" && (
+        <Results setStage={setStage} userInfo={userInfo} />
       )}
     </div>
   );

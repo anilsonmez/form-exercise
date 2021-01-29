@@ -19,7 +19,7 @@ const StageThree = ({ setStage, userInfo, setUserInfo }) => {
   function handleAgeValidation(birthdayString) {
     let isValid = true;
     let errorMessage = "";
-    let birthdayToSet = new Date(birthdayString);
+    let birthdayToSet = birthdayString;
     let birthdaySplitted = birthdayString.split("-");
     let eighteenthBirthday = new Date(
       `${+birthdaySplitted[0] + 18}-${birthdaySplitted[1]}-${
@@ -103,12 +103,15 @@ const StageThree = ({ setStage, userInfo, setUserInfo }) => {
         <button
           disabled={!allValid}
           onClick={(e) => {
+            console.log("birthday");
+            console.log(birthday.content);
             e.preventDefault();
             setUserInfo({
               ...userInfo,
               gender: gender.content,
               birthday: birthday.content,
             });
+            setStage("Results");
             console.log({
               ...userInfo,
               gender: gender.content,

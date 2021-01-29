@@ -2,9 +2,9 @@ import { useState } from "react";
 
 const StageOne = ({ setStage, userInfo, setUserInfo }) => {
   const [firstName, setFirstName] = useState({
-    content: userInfo.name,
+    content: userInfo.firstName,
     error: "",
-    valid: userInfo.name ? true : false,
+    valid: userInfo.firstName ? true : false,
   });
   const [lastName, setLastName] = useState({
     content: userInfo.lastName,
@@ -149,7 +149,7 @@ const StageOne = ({ setStage, userInfo, setUserInfo }) => {
             e.preventDefault();
             setUserInfo({
               ...userInfo,
-              name: firstName.content,
+              firstName: firstName.content,
               lastName: lastName.content,
               email: email.content,
             });
