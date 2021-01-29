@@ -1,13 +1,33 @@
 import { useState } from "react";
 import "./App.css";
 import StageOne from "./StageOne";
+import StageTwo from "./StageTwo";
 
 function App() {
-  const [userInfo, setUserInfo] = useState({});
+  const [stage, setStage] = useState("StageOne");
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
   console.log(userInfo);
   return (
     <div className="App">
-      <StageOne setUserInfo={setUserInfo} userInfo={userInfo} />
+      {stage === "StageOne" && (
+        <StageOne
+          setStage={setStage}
+          userInfo={userInfo}
+          setUserInfo={setUserInfo}
+        />
+      )}
+      {stage === "StageTwo" && (
+        <StageTwo
+          setStage={setStage}
+          userInfo={userInfo}
+          setUserInfo={setUserInfo}
+        />
+      )}
     </div>
   );
 }

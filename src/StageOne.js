@@ -1,17 +1,27 @@
 import { useState } from "react";
 
-const StageOne = ({ setUserInfo, userInfo }) => {
+const StageOne = ({ setStage, userInfo, setUserInfo }) => {
   const [firstName, setFirstName] = useState({
-    content: "",
+    content: userInfo.name,
     error: "",
-    valid: false,
+    valid: userInfo.name ? true : false,
   });
   const [lastName, setLastName] = useState({
-    content: "",
+    content: userInfo.lastName,
     error: "",
-    valid: false,
+    valid: userInfo.lastName ? true : false,
   });
-  const [email, setEmail] = useState({ content: "", error: "", valid: false });
+  const [email, setEmail] = useState({
+    content: userInfo.email,
+    error: "",
+    valid: userInfo.email ? true : false,
+  });
+
+  const [errorVisible, setErrorVisible] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+  });
 
   function handleFirstNameValidation(content) {
     let errorMessage = "";
@@ -86,14 +96,18 @@ const StageOne = ({ setUserInfo, userInfo }) => {
             id="first-name"
             value={firstName.content}
             onFocus={() => {
-              setFirstName({ ...firstName, error: "" });
+              setErrorVisible({ ...errorVisible, firstName: false });
             }}
             onChange={(e) => {
               handleFirstNameValidation(e.target.value);
             }}
-            onBlur={() => {}}
+            onBlur={() => {
+              setErrorVisible({ ...errorVisible, firstName: true });
+            }}
           />
-          <p className="error">{firstName.error}</p>
+          <p className="error">
+            {errorVisible.firstName ? firstName.error : ""}
+          </p>
         </label>
         <label htmlFor="last-name" type="text">
           Last Name
@@ -101,14 +115,16 @@ const StageOne = ({ setUserInfo, userInfo }) => {
             id="last-name"
             value={lastName.content}
             onFocus={() => {
-              setLastName({ ...lastName, error: "" });
+              setErrorVisible({ ...errorVisible, lastName: false });
             }}
             onChange={(e) => {
               handleLastNameValidation(e.target.value);
             }}
-            onBlur={() => {}}
+            onBlur={() => {
+              setErrorVisible({ ...errorVisible, lastName: true });
+            }}
           />
-          <p className="error">{lastName.error}</p>
+          <p className="error">{errorVisible.lastName ? lastName.error : ""}</p>
         </label>
         <label htmlFor="email" type="email">
           E-mail
@@ -116,24 +132,28 @@ const StageOne = ({ setUserInfo, userInfo }) => {
             id="email"
             value={email.content}
             onFocus={() => {
-              setEmail({ ...email, error: "" });
+              setErrorVisible({ ...errorVisible, email: false });
             }}
             onChange={(e) => {
               handleEmailValidation(e.target.value);
             }}
-            onBlur={() => {}}
+            onBlur={() => {
+              setErrorVisible({ ...errorVisible, email: true });
+            }}
           />
-          <p className="error">{email.error}</p>
+          <p className="error">{errorVisible.email ? email.error : ""}</p>
         </label>
         <button
           disabled={!allValid}
           onClick={(e) => {
             e.preventDefault();
             setUserInfo({
+              ...userInfo,
               name: firstName.content,
               lastName: lastName.content,
               email: email.content,
             });
+            setStage("StageTwo");
           }}
         >
           Next
