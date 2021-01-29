@@ -16,7 +16,6 @@ function App() {
     birthday: "",
     features: [],
   });
-  console.log(userInfo);
   return (
     <div className="App">
       {stage === "StageOne" && (

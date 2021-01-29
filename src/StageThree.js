@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+let checkedFeatureCount = 0;
+
 const StageThree = ({ setStage, userInfo, setUserInfo }) => {
   const [gender, setGender] = useState({
     content: userInfo.gender,
@@ -10,6 +12,12 @@ const StageThree = ({ setStage, userInfo, setUserInfo }) => {
     content: userInfo.birthday,
     error: "",
     valid: userInfo.birthday ? true : false,
+  });
+  const [features, setFeatures] = useState({
+    featureA: false,
+    featureB: false,
+    featureC: false,
+    featureD: false,
   });
   const [errorVisible, setErrorVisible] = useState({
     gender: false,
@@ -35,12 +43,6 @@ const StageThree = ({ setStage, userInfo, setUserInfo }) => {
 
     let today = new Date();
     let diff = today - eighteenthBirthday;
-    console.log("eighteenthBirthday");
-    console.log(eighteenthBirthday);
-    console.log("today");
-    console.log(today);
-    console.log("diff");
-    console.log(diff);
     if (diff < 0) {
       errorMessage = "You must be 18 years old or older in order to submit";
       isValid = false;
@@ -54,7 +56,11 @@ const StageThree = ({ setStage, userInfo, setUserInfo }) => {
     });
   }
 
-  const allValid = gender.valid && birthday.valid;
+  function handleCheckedFeatures(checked) {
+    checked ? checkedFeatureCount++ : checkedFeatureCount--;
+  }
+
+  const allValid = gender.valid && birthday.valid && checkedFeatureCount >= 2;
   return (
     <div className="stage-three">
       <form>
@@ -92,6 +98,59 @@ const StageThree = ({ setStage, userInfo, setUserInfo }) => {
           />
           <p className="error">{errorVisible.birthday ? birthday.error : ""}</p>
         </label>
+        <label htmlFor="features">
+          Features
+          <div className="feature">
+            <input
+              type="checkbox"
+              id="feature-a"
+              name="featureA"
+              onChange={(e) => {
+                setFeatures({ ...features, featureA: e.target.checked });
+                handleCheckedFeatures(e.target.checked);
+              }}
+            />
+            <label htmlFor="feature-a">Feature A</label>
+          </div>
+          <div className="feature">
+            <input
+              type="checkbox"
+              id="feature-b"
+              onChange={(e) => {
+                setFeatures({ ...features, featureB: e.target.checked });
+                handleCheckedFeatures(e.target.checked);
+              }}
+            />
+            <label htmlFor="feature-b">Feature B</label>
+          </div>
+          <div className="feature">
+            <input
+              type="checkbox"
+              id="feature-c"
+              onChange={(e) => {
+                setFeatures({ ...features, featureC: e.target.checked });
+                handleCheckedFeatures(e.target.checked);
+              }}
+            />
+            <label htmlFor="feature-c">Feature C</label>
+          </div>
+          <div className="feature">
+            <input
+              type="checkbox"
+              id="feature-d"
+              onChange={(e) => {
+                setFeatures({ ...features, featureD: e.target.checked });
+                handleCheckedFeatures(e.target.checked);
+              }}
+            />
+            <label htmlFor="feature-d">Feature D</label>
+            <p className="error">
+              {checkedFeatureCount >= 2
+                ? ""
+                : "You must select at least two features"}
+            </p>
+          </div>
+        </label>
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -103,8 +162,6 @@ const StageThree = ({ setStage, userInfo, setUserInfo }) => {
         <button
           disabled={!allValid}
           onClick={(e) => {
-            console.log("birthday");
-            console.log(birthday.content);
             e.preventDefault();
             setUserInfo({
               ...userInfo,
@@ -112,11 +169,6 @@ const StageThree = ({ setStage, userInfo, setUserInfo }) => {
               birthday: birthday.content,
             });
             setStage("Results");
-            console.log({
-              ...userInfo,
-              gender: gender.content,
-              birthday: birthday.content,
-            });
           }}
         >
           Submit

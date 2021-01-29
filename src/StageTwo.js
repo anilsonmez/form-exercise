@@ -36,13 +36,6 @@ const StageTwo = ({ setStage, userInfo, setUserInfo }) => {
     });
   }
 
-  function handlePasswordMatch(confirmPassword) {
-    setConfirmPassword(confirmPassword);
-    if (confirmPassword === password.content) {
-      console.log("password match");
-    }
-  }
-
   return (
     <div className="Stage-two">
       <form>
@@ -79,7 +72,7 @@ const StageTwo = ({ setStage, userInfo, setUserInfo }) => {
             id="confirm-password"
             value={confirmPassword}
             onChange={(e) => {
-              handlePasswordMatch(e.target.value);
+              setConfirmPassword(e.target.value);
             }}
           />
           <button
