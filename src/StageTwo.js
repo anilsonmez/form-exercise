@@ -32,16 +32,10 @@ const StageTwo = ({ setStage, userInfo, setUserInfo }) => {
       error: errorMessage,
       valid: isValid,
     });
-    console.log({
-      ...password,
-      content: content,
-      error: errorMessage,
-      valid: isValid,
-    });
   }
 
   return (
-    <div className="StageTwo">
+    <div className="Stage-two">
       <form>
         <label htmlFor="password">
           Password
